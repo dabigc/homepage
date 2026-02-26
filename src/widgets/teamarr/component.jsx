@@ -27,8 +27,8 @@ export default function Component({ service }) {
     );
   }
 
-  const activeChannels = dashboardData?.teams?.active || 0;
-  const channelGroupsCount = dashboardData?.teams?.leagues?.length || 0;
+  const activeChannels = dashboardData?.channels?.active || 0;
+  const channelGroupsCount = dashboardData?.channels?.group_breakdown?.length || 0;
 
   const startedAt = runsData?.runs?.[0]?.started_at
     ? new Date(runsData.runs[0].started_at).toLocaleString("en-US", {
