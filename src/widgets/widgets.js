@@ -128,6 +128,7 @@ import swagdashboard from "./swagdashboard/widget";
 import tailscale from "./tailscale/widget";
 import tandoor from "./tandoor/widget";
 import tautulli from "./tautulli/widget";
+import teamarr from "./teamarr/widget";
 import tdarr from "./tdarr/widget";
 import technitium from "./technitium/widget";
 import tracearr from "./tracearr/widget";
@@ -286,6 +287,7 @@ const widgets = {
   tailscale,
   tandoor,
   tautulli,
+  teamarr,
   technitium,
   tdarr,
   tracearr,

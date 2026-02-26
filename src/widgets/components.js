@@ -138,6 +138,7 @@ const components = {
   tailscale: dynamic(() => import("./tailscale/component")),
   tandoor: dynamic(() => import("./tandoor/component")),
   tautulli: dynamic(() => import("./tautulli/component")),
+  teamarr: dynamic(() => import("./teamarr/component")),
   technitium: dynamic(() => import("./technitium/component")),
   tdarr: dynamic(() => import("./tdarr/component")),
   tracearr: dynamic(() => import("./tracearr/component")),

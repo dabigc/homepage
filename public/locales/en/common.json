@@ -1180,5 +1180,11 @@
         "burned": "Burned",
         "remaining": "Remaining",
         "steps": "Steps"
+    },
+    "teamarr": {
+        "channels": "Channels",
+        "groups": "Groups",
+        "lastRun": "Last Run",
+        "runDuration": "Avg Duration"
     }
 }
