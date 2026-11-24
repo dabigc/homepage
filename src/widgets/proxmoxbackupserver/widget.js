@@ -1,3 +1,4 @@
+import { asJson } from "utils/proxy/api-helpers";
 import credentialedProxyHandler from "utils/proxy/handlers/credentialed";
 
 const widget = {
@@ -5,6 +6,14 @@ const widget = {
   proxyHandler: credentialedProxyHandler,
 
   mappings: {
+    // Pending apt package updates, as last fetched by PBS itself (this GET does not refresh them).
+    update: {
+      endpoint: "nodes/localhost/apt/update",
+      map: (data) => {
+        const count = asJson(data).data?.length ?? 0;
+        return { available: count > 0, version: `${count} packages` };
+      },
+    },
     "status/datastore-usage": {
       endpoint: "status/datastore-usage",
     },

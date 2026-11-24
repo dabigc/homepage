@@ -153,4 +153,18 @@ describe("widgets/bookorbit/proxy", () => {
 
     expect(res.statusCode).toBe(401);
   });
+
+  it("fetches a mapped endpoint and applies the map", async () => {
+    getServiceWidget.mockResolvedValue({ type: "bookorbit", url: "http://bookorbit", key: "bok_test" });
+    httpProxy.mockResolvedValueOnce(json({ version: "v3.9.0", updateAvailable: true, latestVersion: "v3.10.0" }));
+    const res = createMockRes();
+    const map = vi.fn((data) => data.latestVersion);
+
+    await bookorbitProxyHandler({ query: { ...req.query, endpoint: "app-info" } }, res, map);
+
+    expect(httpProxy).toHaveBeenCalledTimes(1);
+    expect(httpProxy.mock.calls[0][0].toString()).toBe("http://bookorbit/api/v1/app-info");
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBe("v3.10.0");
+  });
 });

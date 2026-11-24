@@ -4,6 +4,12 @@ import { httpProxy } from "utils/proxy/http";
 
 const logger = createLogger("homeassistantProxyHandler");
 
+// Renders the `update.*` entities that are on as a JSON list of { name, version }.
+const pendingUpdatesTemplate =
+  "[{% for s in states.update if s.state == 'on' %}" +
+  "{{ {'name': s.name, 'version': s.attributes.latest_version} | tojson }}{{ ',' if not loop.last }}" +
+  "{% endfor %}]";
+
 const defaultQueries = [
   {
     template: "{{ states.person|selectattr('state','equalto','home')|list|length }} / {{ states.person|list|length }}",
@@ -61,7 +67,7 @@ async function getQuery(query, { url, key }) {
   return { result: [500, null, { error: { message: `invalid query ${JSON.stringify(query)}` } }] };
 }
 
-export default async function homeassistantProxyHandler(req, res) {
+export default async function homeassistantProxyHandler(req, res, map) {
   const { group, service, index } = req.query;
 
   if (!group || !service) {
@@ -73,6 +79,12 @@ export default async function homeassistantProxyHandler(req, res) {
   if (!widget) {
     logger.debug("Invalid or missing widget for service '%s' in group '%s'", service, group);
     return res.status(400).json({ error: "Invalid proxy service type" });
+  }
+
+  if (req.query.endpoint === "update") {
+    const [status, , data] = (await getQuery({ template: pendingUpdatesTemplate }, widget)).result;
+    if (status !== 200) return res.status(status).send(data);
+    return res.status(200).json(map ? map(data) : data);
   }
 
   let queries = defaultQueries;

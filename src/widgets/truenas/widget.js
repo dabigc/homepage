@@ -8,6 +8,14 @@ const widget = {
   proxyHandler: truenasProxyHandler,
 
   mappings: {
+    update: {
+      endpoint: "update/status",
+      wsMethod: "update.status",
+      map: (data) => {
+        const version = asJson(data)?.status?.new_version?.version;
+        return { available: Boolean(version), version };
+      },
+    },
     alerts: {
       endpoint: "alert/list",
       wsMethod: "alert.list",

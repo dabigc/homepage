@@ -36,7 +36,7 @@ async function login(loginUrl, username, password, service) {
   return [status, data.access];
 }
 
-export default async function dispatcharrProxyHandler(req, res) {
+export default async function dispatcharrProxyHandler(req, res, map) {
   const { group, service, endpoint, index } = req.query;
 
   if (group && service) {
@@ -110,7 +110,7 @@ export default async function dispatcharrProxyHandler(req, res) {
         return res.status(status).send(data);
       }
 
-      return res.send(data);
+      return res.send(map ? map(data) : data);
     }
   }
 

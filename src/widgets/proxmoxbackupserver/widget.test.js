@@ -13,4 +13,11 @@ describe("proxmoxbackupserver widget config", () => {
     expect(widget.mappings["nodes/localhost/tasks"].params).toEqual(["errors", "limit"]);
     expect(widget.mappings["nodes/localhost/tasks"].optionalParams).toEqual(["since"]);
   });
+
+  it("maps pending apt updates to an update count", () => {
+    const { map } = widget.mappings.update;
+    const body = (data) => Buffer.from(JSON.stringify({ data }));
+    expect(map(body([{ Package: "a" }, { Package: "b" }]))).toEqual({ available: true, version: "2 packages" });
+    expect(map(body([]))).toEqual({ available: false, version: "0 packages" });
+  });
 });

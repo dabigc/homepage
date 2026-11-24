@@ -101,8 +101,8 @@ async function apiCall(widget, endpoint, service) {
   return { status: 500, data: null };
 }
 
-export default async function bookorbitProxyHandler(req, res) {
-  const { group, service, index } = req.query;
+export default async function bookorbitProxyHandler(req, res, map) {
+  const { group, service, endpoint, index } = req.query;
 
   if (!group || !service) {
     logger.debug("Invalid or missing service '%s' or group '%s'", service, group);
@@ -119,6 +119,14 @@ export default async function bookorbitProxyHandler(req, res) {
   if (!widget.key && (!widget.username || !widget.password)) {
     logger.debug("Missing credentials for BookOrbit widget in service '%s'", service);
     return res.status(400).json({ error: "Missing BookOrbit credentials" });
+  }
+
+  if (endpoint) {
+    const result = await apiCall(widget, endpoint, service);
+    if (!result.data) {
+      return res.status(result.status).json({ error: "Error fetching BookOrbit data" });
+    }
+    return res.status(200).json(map ? map(result.data) : result.data);
   }
 
   const library = await apiCall(widget, "statistics/summary", service);

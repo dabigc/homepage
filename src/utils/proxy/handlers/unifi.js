@@ -36,7 +36,7 @@ export default function createUnifiProxyHandler({
   const prefixCacheKey = `${proxyName}__prefix`;
   const logger = createLogger(proxyName);
 
-  return async function unifiProxyHandler(req, res) {
+  return async function unifiProxyHandler(req, res, map) {
     const widget = await resolveWidget(req, logger);
     const { service, endpoint } = req.query;
 
@@ -111,6 +111,6 @@ export default function createUnifiProxyHandler({
       res.setHeader("Content-Type", contentType);
     }
 
-    return res.status(status).send(data);
+    return res.status(status).send(map ? map(data) : data);
   };
 }
