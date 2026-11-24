@@ -11,6 +11,7 @@ import Ping from "./ping";
 import ProxmoxStatus from "./proxmox-status";
 import SiteMonitor from "./site-monitor";
 import Status from "./status";
+import UpdateStatus, { updateCheckTypes } from "./update-status";
 import Widget from "./widget";
 
 export default function Item({ service, groupName, useEqualHeights }) {
@@ -107,6 +108,17 @@ export default function Item({ service, groupName, useEqualHeights }) {
                 <span className="sr-only">Site monitor status</span>
               </div>
             )}
+
+            {service.widgets
+              ?.filter((widget) => updateCheckTypes.includes(widget.type))
+              .map((widget) => (
+                <div
+                  key={widget.index}
+                  className="shrink-0 flex items-center justify-center service-tag service-update"
+                >
+                  <UpdateStatus groupName={groupName} serviceName={service.name} index={widget.index} />
+                </div>
+              ))}
 
             {service.container && (
               <button

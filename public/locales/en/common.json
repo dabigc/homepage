@@ -122,6 +122,10 @@
         "up": "Up",
         "not_available": "Not Available"
     },
+    "updateStatus": {
+        "available": "Update available",
+        "update": "Update"
+    },
     "siteMonitor": {
         "http_status": "HTTP status",
         "error": "Error",
