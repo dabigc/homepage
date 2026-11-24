@@ -57,4 +57,22 @@ describe("widgets/homeassistant/proxy", () => {
       { label: "homeassistant.switches_on", value: "5 / 6" },
     ]);
   });
+
+  it("renders pending update entities for the update endpoint and maps them", async () => {
+    getServiceWidget.mockResolvedValue({ url: "http://hass", key: "k" });
+    httpProxy.mockResolvedValueOnce([200, "text/plain", Buffer.from('[{"name":"Core","version":"2026.11.3"}]')]);
+
+    const req = { query: { group: "g", service: "svc", index: "0", endpoint: "update" } };
+    const res = createMockRes();
+    const map = vi.fn((data) => JSON.parse(data.toString()).length);
+
+    await homeassistantProxyHandler(req, res, map);
+
+    expect(httpProxy).toHaveBeenCalledTimes(1);
+    const [url, params] = httpProxy.mock.calls[0];
+    expect(url.toString()).toBe("http://hass/api/template");
+    expect(JSON.parse(params.body).template).toContain("states.update");
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBe(1);
+  });
 });

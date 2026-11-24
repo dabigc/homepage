@@ -5,6 +5,13 @@ const widget = {
   api: "{url}/api/{endpoint}?token={key}&utc=true",
   proxyHandler: genericProxyHandler,
   mappings: {
+    update: {
+      endpoint: "user/checkForUpdate",
+      map: (data) => {
+        const { updateAvailable, updateVersion } = asJson(data).response ?? {};
+        return { available: Boolean(updateAvailable), version: updateVersion };
+      },
+    },
     stats: {
       endpoint: "dashboard/stats/get",
       validate: ["response", "status"],
