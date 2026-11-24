@@ -8,6 +8,7 @@ search:
 You can also find a list of all available service widgets in the sidebar navigation.
 
 - [Adguard Home](adguard-home.md)
+- [AltMount](altmount.md)
 - [APC UPS](apcups.md)
 - [Arcane](arcane.md)
 - [ArgoCD](argocd.md)

@@ -893,6 +893,16 @@
         "reading": "Reading",
         "finished": "Finished"
     },
+    "altmount": {
+        "queue": "Queue",
+        "speed": "Speed",
+        "failed": "Failed",
+        "healthy": "Healthy",
+        "pending": "Pending",
+        "degraded": "Degraded",
+        "corrupted": "Corrupted",
+        "repairing": "Repairing"
+    },
     "jdownloader": {
         "downloadCount": "Queue",
         "downloadBytesRemaining": "Remaining",
