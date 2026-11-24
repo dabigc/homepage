@@ -1,3 +1,4 @@
+import arrUpdateMap from "utils/arr-update";
 import { asJson } from "utils/proxy/api-helpers";
 import genericProxyHandler from "utils/proxy/handlers/generic";
 
@@ -6,6 +7,10 @@ const widget = {
   proxyHandler: genericProxyHandler,
 
   mappings: {
+    update: {
+      endpoint: "update",
+      map: arrUpdateMap,
+    },
     movie: {
       endpoint: "movie",
       map: (data) => {

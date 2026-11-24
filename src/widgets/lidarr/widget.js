@@ -1,3 +1,4 @@
+import arrUpdateMap from "utils/arr-update";
 import genericProxyHandler from "utils/proxy/handlers/generic";
 
 const widget = {
@@ -5,6 +6,10 @@ const widget = {
   proxyHandler: genericProxyHandler,
 
   mappings: {
+    update: {
+      endpoint: "update",
+      map: arrUpdateMap,
+    },
     artist: {
       endpoint: "artist",
     },
