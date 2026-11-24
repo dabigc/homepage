@@ -14,4 +14,17 @@ describe("teamarr widget config", () => {
     expect(widget.mappings.groups.endpoint).toBe("groups");
     expect(widget.mappings.runs.endpoint).toBe("stats/runs?limit=1");
   });
+
+  it("maps updates/check to an update", () => {
+    const { map } = widget.mappings.update;
+    const body = (data) => Buffer.from(JSON.stringify({ current_version: "2.19.0", ...data }));
+    expect(map(body({ update_available: true, latest_version: "2.27.0" }))).toEqual({
+      available: true,
+      version: "2.27.0",
+    });
+    expect(map(body({ update_available: false, latest_version: "2.19.0" }))).toEqual({
+      available: false,
+      version: "2.19.0",
+    });
+  });
 });

@@ -82,8 +82,8 @@ async function apiCall(widget, endpoint, service) {
   return { status: 500, data: null };
 }
 
-export default async function altmountProxyHandler(req, res) {
-  const { group, service, index } = req.query;
+export default async function altmountProxyHandler(req, res, map) {
+  const { group, service, endpoint, index } = req.query;
 
   if (!group || !service) {
     logger.debug("Invalid or missing service '%s' or group '%s'", service, group);
@@ -95,6 +95,18 @@ export default async function altmountProxyHandler(req, res) {
   if (!widget) {
     logger.debug("Invalid or missing widget for service '%s' in group '%s'", service, group);
     return res.status(400).json({ error: "Invalid proxy service type" });
+  }
+
+  if (endpoint === "system/update/status") {
+    let update = await apiCall(widget, endpoint, service);
+    // A dev build never matches a release tag, so compare it with the latest commit instead.
+    if (update.data?.current_version?.startsWith("dev")) {
+      update = await apiCall(widget, `${endpoint}?channel=dev`, service);
+    }
+    if (!update.data) {
+      return res.status(update.status).json({ error: "Error fetching AltMount update status" });
+    }
+    return res.status(200).json(map ? map(update.data) : update.data);
   }
 
   const stats = await apiCall(widget, "system/stats", service);

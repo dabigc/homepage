@@ -3,6 +3,7 @@ import useSWR from "swr";
 
 // Widget types whose widget.js has an `update` mapping returning { available, version }.
 export const updateCheckTypes = [
+  "altmount",
   "autobrr",
   "bookorbit",
   "channelsdvrserver",
@@ -17,6 +18,7 @@ export const updateCheckTypes = [
   "radarr",
   "seerr",
   "sonarr",
+  "teamarr",
   "technitium",
   "truenas",
   "unifi",
