@@ -1305,5 +1305,13 @@
     },
     "feed": {
         "noItems": "No items"
+    },
+    "teamarr": {
+        "channels": "Channels",
+        "groups": "Groups",
+        "lastRun": "Last Run",
+        "runDuration": "Run Duration",
+        "liveNow": "Live Now",
+        "gamesToday": "Games Today"
     }
 }

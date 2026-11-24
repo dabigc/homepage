@@ -139,6 +139,7 @@ import tailscale from "./tailscale/widget";
 import tandoor from "./tandoor/widget";
 import tautulli from "./tautulli/widget";
 import tdarr from "./tdarr/widget";
+import teamarr from "./teamarr/widget";
 import technitium from "./technitium/widget";
 import tracearr from "./tracearr/widget";
 import traefik from "./traefik/widget";
@@ -307,6 +308,7 @@ const widgets = {
   tailscale,
   tandoor,
   tautulli,
+  teamarr,
   technitium,
   tdarr,
   tracearr,
