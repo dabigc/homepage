@@ -29,6 +29,7 @@ vi.mock("widgets/widgets", () => ({
     esphome: { api: "{url}/{endpoint}" },
     wgeasy: { api: "{url}/{endpoint}" },
     linkwarden: { api: "{url}/api/v1/{endpoint}" },
+    tofa: { api: "{url}/api/v1/{endpoint}" },
     miniflux: { api: "{url}/{endpoint}" },
     nextcloud: { api: "{url}/ocs/v2.php/apps/serverinfo/api/v1/{endpoint}" },
     paperlessngx: { api: "{url}/api/{endpoint}" },
@@ -148,6 +149,23 @@ describe("utils/proxy/handlers/credentialed", () => {
     const [url, params] = httpProxy.mock.calls[0];
     expect(params.headers.Authorization).toBe("Bearer token");
     expect(url.toString()).toBe("http://example/api/v1/notifications?limit=1");
+  });
+
+  it("uses Bearer auth for tofa widgets", async () => {
+    getServiceWidget.mockResolvedValue({ type: "tofa", url: "http://example", key: "tofa_token" });
+    httpProxy.mockResolvedValue([200, "application/json", { sessions: [] }]);
+
+    const req = {
+      method: "GET",
+      query: { group: "g", service: "s", endpoint: "system/activity/now-playing", index: 0 },
+    };
+    const res = createMockRes();
+
+    await credentialedProxyHandler(req, res);
+
+    const [url, params] = httpProxy.mock.calls[0];
+    expect(params.headers.Authorization).toBe("Bearer tofa_token");
+    expect(url.toString()).toBe("http://example/api/v1/system/activity/now-playing");
   });
 
   it("passes response headers to the mapping function", async () => {

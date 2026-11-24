@@ -218,6 +218,9 @@
         "no_active": "No Active Streams",
         "plex_connection_error": "Check Plex Connection"
     },
+    "tofa": {
+        "no_active": "No Active Streams"
+    },
     "tracearr": {
         "no_active": "No Active Streams",
         "streams": "Streams",

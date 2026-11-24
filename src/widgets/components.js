@@ -151,6 +151,7 @@ const components = {
   teamarr: dynamic(() => import("./teamarr/component")),
   technitium: dynamic(() => import("./technitium/component")),
   tdarr: dynamic(() => import("./tdarr/component")),
+  tofa: dynamic(() => import("./tofa/component")),
   tracearr: dynamic(() => import("./tracearr/component")),
   traefik: dynamic(() => import("./traefik/component")),
   transmission: dynamic(() => import("./transmission/component")),

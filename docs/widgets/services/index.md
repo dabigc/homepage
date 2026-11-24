@@ -140,6 +140,7 @@ You can also find a list of all available service widgets in the sidebar navigat
 - [Technitium DNS](technitium.md)
 - [TDarr](tdarr.md)
 - [Teamarr](teamarr.md)
+- [tofa](tofa.md)
 - [Traefik](traefik.md)
 - [Transmission](transmission.md)
 - [Trilium](trilium.md)
