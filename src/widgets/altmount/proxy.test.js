@@ -152,4 +152,24 @@ describe("widgets/altmount/proxy", () => {
 
     expect(res.statusCode).toBe(401);
   });
+
+  it("checks the dev channel for a dev build and applies the map", async () => {
+    getServiceWidget.mockResolvedValue({ type: "altmount", url: "http://altmount" });
+    httpProxy
+      .mockResolvedValueOnce(
+        json({ data: { current_version: "dev-abc", latest_version: "v0.4.0", update_available: true } }),
+      )
+      .mockResolvedValueOnce(
+        json({ data: { current_version: "dev-abc", latest_version: "abc", update_available: false } }),
+      );
+    const res = createMockRes();
+    const map = vi.fn((data) => data.update_available);
+
+    await altmountProxyHandler({ query: { ...req.query, endpoint: "system/update/status" } }, res, map);
+
+    expect(httpProxy.mock.calls[0][0].toString()).toBe("http://altmount/api/system/update/status");
+    expect(httpProxy.mock.calls[1][0].toString()).toBe("http://altmount/api/system/update/status?channel=dev");
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBe(false);
+  });
 });
